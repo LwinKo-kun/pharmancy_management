@@ -1,0 +1,270 @@
+<?php
+session_start();
+require_once 'config/db.php';
+
+$error = '';
+
+function normalize_hash(?string $hash): string
+{
+    return trim(str_replace(["\r", "\n"], '', (string)$hash));
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    if ($username === '' || $password === '') {
+        $error = "Username နဲ့ Password နှစ်ခုလုံးဖြည့်ပါ။";
+    } else {
+        // Support both modern and legacy schemas by querying only existing columns.
+        $availableColumns = [];
+        $columnStmt = $pdo->query("SHOW COLUMNS FROM users");
+        foreach ($columnStmt->fetchAll(PDO::FETCH_ASSOC) as $columnMeta) {
+            $availableColumns[$columnMeta['Field']] = true;
+        }
+
+        $lookupColumns = [];
+        foreach (['display_name', 'email', 'username'] as $candidate) {
+            if (isset($availableColumns[$candidate])) {
+                $lookupColumns[] = $candidate;
+            }
+        }
+
+        if (empty($lookupColumns)) {
+            $error = "Login configuration error: users table columns are missing.";
+            $user = null;
+        } else {
+            $where = implode(' OR ', array_map(static fn($c) => "`$c` = :identifier", $lookupColumns));
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE $where LIMIT 1");
+            $stmt->execute(['identifier' => $username]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
+        $modernHash = normalize_hash($user['password_hash'] ?? '');
+        $legacyHash = normalize_hash($user['password'] ?? '');
+        $passwordValid = false;
+
+        if ($modernHash !== '') {
+            $passwordValid = password_verify($password, $modernHash);
+        } elseif ($legacyHash !== '') {
+            $passwordValid = password_verify($password, $legacyHash);
+        }
+
+        if ($user && $passwordValid) {
+            session_regenerate_id(true);
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'] ?? $user['display_name'] ?? $user['email'] ?? $username;
+            $_SESSION['display_name'] = $user['display_name'] ?? $_SESSION['username'];
+            $_SESSION['tenant_id'] = $user['tenant_id'] ?? null;
+            $_SESSION['role'] = $user['role'] ?? (strtolower($_SESSION['username']) === 'admin' ? 'admin' : 'user');
+            header('Location: dashboard.php');
+            exit;
+        } else {
+            $error = "အသုံးပြုသူအမည် (Username) သို့မဟုတ် စကားဝှက် (Password) မမှန်ပါ။";
+        }
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Inventory Login</title>
+    <style>
+        :root {
+            --trust-blue: #1f6feb;
+            --health-green: #1f9d70;
+            --light-gray: #f3f6f9;
+            --dark-charcoal: #1f2933;
+            --border-gray: #d4dde5;
+            --danger: #cb3a31;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-gray);
+            color: var(--dark-charcoal);
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+        .login-shell {
+            width: 100%;
+            max-width: 980px;
+            background: #ffffff;
+            border: 1px solid var(--border-gray);
+            border-radius: 18px;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            overflow: hidden;
+            box-shadow: 0 18px 36px rgba(31, 41, 51, 0.12);
+        }
+        .login-brand {
+            padding: 36px;
+            background: linear-gradient(160deg, #e8f0ff 0%, #e8fff6 100%);
+            border-right: 1px solid var(--border-gray);
+        }
+        .brand-pill {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: #dce9ff;
+            color: #16499b;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .02em;
+            text-transform: uppercase;
+        }
+        .login-brand h1 {
+            margin: 14px 0 10px;
+            font-size: 32px;
+            line-height: 1.2;
+        }
+        .login-brand p {
+            margin: 0 0 22px;
+            color: #344657;
+            line-height: 1.6;
+        }
+        .theme-note {
+            margin: 0;
+            padding: 12px 14px;
+            border-left: 4px solid var(--health-green);
+            background: #ecfbf4;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .login-panel {
+            padding: 34px 28px;
+        }
+        .login-panel h2 {
+            margin: 0 0 6px;
+            font-size: 24px;
+        }
+        .login-panel .sub {
+            margin: 0 0 22px;
+            color: #526272;
+            font-size: 14px;
+        }
+        .error-box {
+            background: #fdeceb;
+            border: 1px solid #f2c1be;
+            color: #8b1f18;
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-bottom: 14px;
+            font-size: 14px;
+        }
+        .field {
+            margin-bottom: 14px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            border: 1px solid var(--border-gray);
+            border-radius: 10px;
+            padding: 11px 12px;
+            font-size: 15px;
+            outline: none;
+            transition: .2s border-color, .2s box-shadow;
+        }
+        input:focus {
+            border-color: var(--trust-blue);
+            box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.18);
+        }
+        .row-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            gap: 12px;
+            font-size: 14px;
+        }
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4a5a6a;
+        }
+        .btn-login {
+            width: 100%;
+            border: 0;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: .01em;
+            color: #fff;
+            background: linear-gradient(90deg, var(--trust-blue), var(--health-green));
+            cursor: pointer;
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+        .btn-login:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 18px rgba(31, 111, 235, 0.28);
+        }
+        .role-hint {
+            margin-top: 14px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border-gray);
+            color: #5c6c7b;
+            font-size: 13px;
+        }
+        @media (max-width: 900px) {
+            .login-shell {
+                grid-template-columns: 1fr;
+            }
+            .login-brand {
+                border-right: 0;
+                border-bottom: 1px solid var(--border-gray);
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="login-shell">
+        <section class="login-brand">
+            <span class="brand-pill">Smart Inventory</span>
+            <h1>Secure access for modern pharmacy operations</h1>
+            <p>Clean interface, role-based workflows, and reliable stock control for both administrators and staff users.</p>
+            <p class="theme-note">Theme colors: Trust Blue, Health Green, Light Gray, and Dark Charcoal.</p>
+        </section>
+        <section class="login-panel">
+            <h2>Sign in</h2>
+            <p class="sub">Use your username, display name, or email.</p>
+            <?php if ($error): ?>
+                <div class="error-box"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
+            <form method="post" action="">
+                <div class="field">
+                    <label for="username">Username / Display Name / Email</label>
+                    <input type="text" id="username" name="username" required autofocus value="<?= htmlspecialchars($_POST['username'] ?? '') ?>">
+                </div>
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="row-inline">
+                    <label class="remember" for="remember">
+                        <input type="checkbox" id="remember" name="remember">
+                        <span>Remember me</span>
+                    </label>
+                </div>
+                <button class="btn-login" type="submit">Login to Dashboard</button>
+            </form>
+            <p class="role-hint">Admins get system control tools. Users get daily pharmacy operation tools.</p>
+        </section>
+    </main>
+</body>
+</html>
