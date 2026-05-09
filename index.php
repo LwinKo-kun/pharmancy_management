@@ -80,6 +80,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             --dark-charcoal: #1f2933;
             --border-gray: #d4dde5;
             --danger: #cb3a31;
+            --panel-bg: #ffffff;
+            --muted-text: #526272;
+        }
+        :root[data-theme="dark"] {
+            --light-gray: #0b1220;
+            --dark-charcoal: #e5edf7;
+            --border-gray: #26334d;
+            --panel-bg: #111a2e;
+            --muted-text: #9fb0c9;
         }
         * {
             box-sizing: border-box;
@@ -97,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .login-shell {
             width: 100%;
             max-width: 980px;
-            background: #ffffff;
+            background: var(--panel-bg);
             border: 1px solid var(--border-gray);
             border-radius: 18px;
             display: grid;
@@ -148,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         .login-panel .sub {
             margin: 0 0 22px;
-            color: #526272;
+            color: var(--muted-text);
             font-size: 14px;
         }
         .error-box {
@@ -214,6 +223,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             transform: translateY(-1px);
             box-shadow: 0 10px 18px rgba(31, 111, 235, 0.28);
         }
+        .theme-toggle-wrap {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 12px;
+        }
+        .theme-toggle {
+            border: 1px solid var(--border-gray);
+            background: transparent;
+            color: var(--dark-charcoal);
+            border-radius: 9px;
+            padding: 6px 10px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        :root[data-theme="dark"] .theme-toggle {
+            background: #0e1628;
+        }
+        :root[data-theme="dark"] .theme-note {
+            background: #112f27;
+            color: #b3e8d7;
+        }
+        :root[data-theme="dark"] input[type="text"],
+        :root[data-theme="dark"] input[type="password"] {
+            background: #0e1628;
+            color: #e5edf7;
+        }
         .role-hint {
             margin-top: 14px;
             padding-top: 10px;
@@ -241,6 +276,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="theme-note">Theme colors: Trust Blue, Health Green, Light Gray, and Dark Charcoal.</p>
         </section>
         <section class="login-panel">
+            <div class="theme-toggle-wrap">
+                <button type="button" class="theme-toggle" id="themeToggleBtn">Night mode</button>
+            </div>
             <h2>Sign in</h2>
             <p class="sub">Use your username, display name, or email.</p>
             <?php if ($error): ?>
@@ -266,5 +304,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="role-hint">Admins get system control tools. Users get daily pharmacy operation tools.</p>
         </section>
     </main>
+    <script>
+    (() => {
+        const root = document.documentElement;
+        const key = 'smart_inventory_theme';
+        const btn = document.getElementById('themeToggleBtn');
+        const saved = localStorage.getItem(key);
+        const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const initial = saved || (systemDark ? 'dark' : 'light');
+        root.setAttribute('data-theme', initial);
+        if (btn) btn.textContent = initial === 'dark' ? 'Day mode' : 'Night mode';
+        if (btn) {
+            btn.addEventListener('click', () => {
+                const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                localStorage.setItem(key, next);
+                btn.textContent = next === 'dark' ? 'Day mode' : 'Night mode';
+            });
+        }
+    })();
+    </script>
 </body>
 </html>

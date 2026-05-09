@@ -1,7 +1,7 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['user_id']) && !isset($_SESSION['username'])) {
     header('Location: index.php');
     exit();
 }
@@ -32,40 +32,71 @@ $medicines = $medStmt->fetchAll(PDO::FETCH_ASSOC);
 <style>
 body {
     font-family: 'Segoe UI', Tahoma, sans-serif;
-    background: url('images/md2.avif') no-repeat center center fixed;
-    background-size: cover;
-}
-.overlay {
-    position: fixed;
-    top:0; left:0; width:100%; height:100%;
-    background: rgba(0,0,0,0.4);
-    z-index:-1;
+    background: linear-gradient(180deg, #eef3f8 0%, #f9fcff 100%);
+    color: #111827;
 }
 .form-container {
-    max-width: 780px;
+    max-width: 860px;
     width: 100%;
-    background: rgba(255,255,255,0.85);
+    background: #ffffff;
     padding: 30px;
-    border-radius: 18px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-    margin: 50px auto;
+    border-radius: 16px;
+    border: 1px solid #cfdae6;
+    box-shadow: 0 14px 28px rgba(31, 41, 55, 0.12);
+    margin: 28px auto;
     position: relative;
 }
 .form-title {
     text-align: center;
     margin-bottom: 25px;
     font-weight: 700;
-    color: #0d6efd;
+    color: #1d4ed8;
 }
 .btn-soft { border-radius: 12px; }
 #autocompleteList {
     max-height: 200px;
     overflow-y: auto;
 }
+:root[data-theme="dark"] body {
+    background: linear-gradient(180deg, #0b1220 0%, #111a2e 100%);
+    color: #e5edf7;
+}
+:root[data-theme="dark"] .form-container {
+    background: #111a2e;
+    border-color: #26334d;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+}
+:root[data-theme="dark"] .form-title,
+:root[data-theme="dark"] .form-label {
+    color: #b8d0f2;
+}
+:root[data-theme="dark"] .form-control,
+:root[data-theme="dark"] .form-select {
+    background: #0e1628;
+    border-color: #2b3b5c;
+    color: #e5edf7;
+}
+:root[data-theme="dark"] .form-control::placeholder {
+    color: #9fb0c9;
+}
+:root[data-theme="dark"] .list-group-item {
+    background: #0e1628;
+    color: #dbe7f7;
+    border-color: #2b3b5c;
+}
+@media (max-width: 980px) {
+    .form-container {
+        max-width: 96%;
+        margin: 18px auto;
+        padding: 20px 16px;
+    }
+    .form-title {
+        font-size: 1.4rem;
+    }
+}
 </style>
 </head>
 <body>
-<div class="overlay"></div>
 <?php include 'navbar.php'; ?>
 
 <div class="form-container">

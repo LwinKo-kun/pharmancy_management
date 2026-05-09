@@ -305,9 +305,56 @@ footer {
     color: #657686;
     font-size: 13px;
 }
+:root[data-theme="dark"] body {
+    background:
+        radial-gradient(circle at 12% 8%, rgba(37, 99, 235, 0.16), transparent 30%),
+        radial-gradient(circle at 88% 12%, rgba(16, 185, 129, 0.14), transparent 35%),
+        #0b1220;
+    color: #e5edf7;
+}
+:root[data-theme="dark"] .section-title {
+    color: #dbe7f7;
+}
+:root[data-theme="dark"] .panel,
+:root[data-theme="dark"] .card {
+    background: #111a2e;
+    border-color: #26334d;
+    color: #e5edf7;
+}
+:root[data-theme="dark"] .panel p,
+:root[data-theme="dark"] .card p,
+:root[data-theme="dark"] footer {
+    color: #9cb0c8;
+}
+:root[data-theme="dark"] .axis-labels {
+    color: #96a9c0;
+}
+:root[data-theme="dark"] .donut::after {
+    background: #111a2e;
+}
+:root[data-theme="dark"] .donut-center {
+    color: #c9d7ea;
+}
+:root[data-theme="dark"] .chip.blue {
+    background: #16315f;
+    color: #8fb8ff;
+}
+:root[data-theme="dark"] .chip {
+    background: #1a4338;
+    color: #88dcbf;
+}
 @media (max-width: 900px) {
     .charts {
         grid-template-columns: 1fr;
+    }
+    .hero h1 {
+        font-size: 23px;
+    }
+    .metric-card strong {
+        font-size: 24px;
+    }
+    .wrapper {
+        width: min(1200px, 95%);
     }
 }
 </style>
