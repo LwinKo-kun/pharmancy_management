@@ -104,6 +104,13 @@ body {
         var(--light-gray);
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: var(--dark-charcoal);
+    padding-left: 270px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+@media (max-width: 980px) {
+    body { padding-left: 0; padding-top: 116px; }
 }
 .wrapper {
     width: min(1200px, 96%);

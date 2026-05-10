@@ -28,9 +28,15 @@ $medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
+            padding-left: 270px;
+            padding-top: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px;
             background: url('background.jpg') no-repeat center center fixed;
             background-size: cover;
+        }
+        @media (max-width: 980px) {
+            body { padding-left: 0; padding-top: 116px; }
         }
 
         .form-section {

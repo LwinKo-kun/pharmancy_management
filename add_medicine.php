@@ -61,6 +61,13 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow-x: hidden;
     position: relative;
+    padding-left: 270px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+@media (max-width: 980px) {
+    body { padding-left: 0; padding-top: 116px; }
 }
 
 /* Subtle blur overlay */

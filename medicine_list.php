@@ -25,6 +25,13 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow-x: hidden;
     position: relative;
+    padding-left: 270px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+@media (max-width: 980px) {
+    body { padding-left: 0; padding-top: 116px; }
 }
 
 /* Subtle blur overlay for background */
@@ -45,6 +52,42 @@ body::before {
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     padding: 25px;
     margin-top: 30px;
+}
+
+/* Dark mode styles */
+:root[data-theme="dark"] body::before {
+    background: rgba(0,0,0,0.3);
+}
+
+:root[data-theme="dark"] .glass-container {
+    background: rgba(17, 26, 46, 0.85);
+    color: #e5edf7;
+}
+
+:root[data-theme="dark"] h2 {
+    color: #e5edf7;
+}
+
+:root[data-theme="dark"] .table thead {
+    background: rgba(37, 99, 235, 0.85);
+}
+
+:root[data-theme="dark"] .table {
+    color: #e5edf7;
+}
+
+:root[data-theme="dark"] .table tbody tr:hover {
+    background: rgba(37, 99, 235, 0.15);
+}
+
+:root[data-theme="dark"] .expiring-soon {
+    background-color: #332b1a !important;
+    border-left: 5px solid #f59e0b;
+}
+
+:root[data-theme="dark"] .expired {
+    background-color: #2c1a1a !important;
+    border-left: 5px solid #ef4444;
 }
 
 /* Table styling */

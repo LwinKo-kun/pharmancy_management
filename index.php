@@ -74,21 +74,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Smart Inventory Login</title>
     <style>
         :root {
-            --trust-blue: #1f6feb;
-            --health-green: #1f9d70;
-            --light-gray: #f3f6f9;
-            --dark-charcoal: #1f2933;
-            --border-gray: #d4dde5;
-            --danger: #cb3a31;
+            /* Primary Colors */
+            --trust-blue: #2563eb;
+            --health-green: #12b981;
+            --warning-amber: #f59e0b;
+            --danger-red: #ef4444;
+            --vivid-cyan: #06b6d4;
+            
+            /* Light Theme */
+            --light-gray: #eef3f8;
+            --dark-charcoal: #111827;
+            --border-gray: #cfd9e4;
+            --page-bg: #eef3f8;
+            --page-text: #111827;
+            --muted-text: #5b6a79;
             --panel-bg: #ffffff;
-            --muted-text: #526272;
+            
+            /* Cards & Panels */
+            --card-bg: #ffffff;
+            --card-border: #cfd9e4;
+            --card-shadow: 0 8px 14px rgba(31, 41, 51, 0.08);
+            
+            /* Inputs */
+            --input-bg: #ffffff;
+            --input-border: #cfd9e4;
+            --input-text: #111827;
         }
         :root[data-theme="dark"] {
+            /* Dark Theme */
             --light-gray: #0b1220;
             --dark-charcoal: #e5edf7;
             --border-gray: #26334d;
+            --page-bg: #0b1220;
+            --page-text: #e5edf7;
+            --muted-text: #9cb0c8;
             --panel-bg: #111a2e;
-            --muted-text: #9fb0c9;
+            
+            /* Cards & Panels */
+            --card-bg: #111a2e;
+            --card-border: #26334d;
+            --card-shadow: 0 8px 14px rgba(15, 23, 42, 0.28);
+            
+            /* Inputs */
+            --input-bg: #0e1628;
+            --input-border: #3a4a6b;
+            --input-text: #e5edf7;
         }
         * {
             box-sizing: border-box;
@@ -239,15 +269,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         :root[data-theme="dark"] .theme-toggle {
             background: #0e1628;
+            border-color: #3a4a6b;
+            color: #e5edf7;
         }
         :root[data-theme="dark"] .theme-note {
             background: #112f27;
             color: #b3e8d7;
+            border-left-color: #1f9d70;
         }
         :root[data-theme="dark"] input[type="text"],
         :root[data-theme="dark"] input[type="password"] {
             background: #0e1628;
             color: #e5edf7;
+            border-color: #3a4a6b;
+        }
+        :root[data-theme="dark"] input:focus {
+            border-color: var(--trust-blue);
+            box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.3);
+        }
+        :root[data-theme="dark"] .login-brand {
+            background: linear-gradient(160deg, #0f1a3a 0%, #0a2a24 100%);
+            color: #e5edf7;
+        }
+        :root[data-theme="dark"] .login-brand p {
+            color: #b3c5d7;
+        }
+        :root[data-theme="dark"] .brand-pill {
+            background: #1a2c5a;
+            color: #8fb4ff;
+        }
+        :root[data-theme="dark"] .error-box {
+            background: #2c1a1a;
+            border-color: #5c2c2c;
+            color: #ffa8a8;
+        }
+        :root[data-theme="dark"] .role-hint {
+            color: #94a3b8;
+            border-top-color: #3a4a6b;
         }
         .role-hint {
             margin-top: 14px;

@@ -34,6 +34,13 @@ body {
     font-family: 'Segoe UI', Tahoma, sans-serif;
     background: linear-gradient(180deg, #eef3f8 0%, #f9fcff 100%);
     color: #111827;
+    padding-left: 270px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+@media (max-width: 980px) {
+    body { padding-left: 0; padding-top: 116px; }
 }
 .form-container {
     max-width: 860px;

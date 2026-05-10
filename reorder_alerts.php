@@ -29,9 +29,12 @@ $medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Reorder Alerts - Low Stock</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        body { padding: 20px; background-color: #f9f9f9; }
+        body { padding-left: 270px; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; background-color: #f9f9f9; }
         h2 { margin-bottom: 30px; }
         .table th, .table td { vertical-align: middle; }
+        @media (max-width: 980px) {
+            body { padding-left: 0; padding-top: 116px; }
+        }
     </style>
 </head>
 <body class="container mt-5">

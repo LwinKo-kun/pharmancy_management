@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `smart_inventory_db`
+-- Database: `inventory_management` (create empty DB with this name before import, or rename after import)
 --
 
 -- --------------------------------------------------------

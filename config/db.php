@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost';
 $port = '3306';
-$dbname = 'smart_inventory_db';
+$dbname = 'inventory_management';
 $username = 'root';
 $password = '';
 
