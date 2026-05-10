@@ -372,4 +372,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 **Author**: Smart Inventory Development Team  
 **Version**: 2.0  
 **Last Updated**: May 2024  
-**Contact**: project@smartinventory.example.com
+**Contact**: lwin.ko.5664@gmail.com
