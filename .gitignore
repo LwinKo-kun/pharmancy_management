@@ -1,4 +1,52 @@
-#ignored folders
+# Ignored folders
 bootstrap/
 images/
-databases/
+database/
+config/
+
+# Ignored files
+*.log
+*.sql
+.env
+.env.local
+.env.*.local
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+ehthumbs.db
+Icon?
+[Tt]humbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Dependency directories
+node_modules/
+vendor/
+
+# Build outputs
+dist/
+build/
+*.min.js
+*.min.css
+
+# Database files (already ignored via folder, but being explicit)
+*.db
+*.sqlite
+*.sqlite3
+
+# Configuration files with sensitive data
+config/db.php
+config/*.sql
