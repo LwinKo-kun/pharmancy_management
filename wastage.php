@@ -13,15 +13,78 @@ $stmt = $pdo->query("SELECT id, name FROM medicines ORDER BY name");
 $medicines = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8" />
     <title>Record Disposal / Wastage - Smart Inventory</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        body { padding-left: 270px; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; background-color: #f9f9f9; }
+        :root {
+            --trust-blue: #2563eb;
+            --health-green: #12b981;
+            --light-gray: #eef3f8;
+            --dark-charcoal: #111827;
+            --border-gray: #cfd9e4;
+        }
+        :root[data-theme="dark"] {
+            --light-gray: #0b1220;
+            --dark-charcoal: #e5edf7;
+            --border-gray: #26334d;
+        }
+        body { 
+            padding-left: 270px; 
+            padding-top: 20px; 
+            padding-right: 20px; 
+            padding-bottom: 20px; 
+            background-color: var(--light-gray); 
+            color: var(--dark-charcoal);
+        }
         @media (max-width: 980px) {
             body { padding-left: 0; padding-top: 116px; }
+        }
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 14px rgba(31, 41, 51, 0.08);
+        }
+        :root[data-theme="dark"] .container {
+            background: #111a2e;
+            box-shadow: 0 8px 14px rgba(0, 0, 0, 0.35);
+        }
+        :root[data-theme="dark"] .form-label {
+            color: #b8d0f2;
+        }
+        :root[data-theme="dark"] .form-control,
+        :root[data-theme="dark"] .form-select {
+            background: #0e1628;
+            border-color: #2b3b5c;
+            color: #e5edf7;
+        }
+        :root[data-theme="dark"] .btn-danger {
+            background: #dc2626;
+            color: #fff;
+        }
+        :root[data-theme="dark"] .btn-danger:hover {
+            background: #b91c1c;
+        }
+        :root[data-theme="dark"] .table {
+            color: #e5edf7;
+            border-color: #2b3b5c;
+        }
+        :root[data-theme="dark"] .table > :not(caption) > * > * {
+            background-color: #111a2e !important;
+            color: #e5edf7;
+            border-color: #2b3b5c;
+            box-shadow: inset 0 0 0 9999px transparent;
+        }
+        :root[data-theme="dark"] .table thead th {
+            background-color: #1e293b !important;
+            color: #60a5fa !important;
+            border-bottom: 2px solid #334155;
+        }
+        :root[data-theme="dark"] .table-hover tbody tr:hover > * {
+            background-color: #1a243a !important;
         }
     </style>
 </head>

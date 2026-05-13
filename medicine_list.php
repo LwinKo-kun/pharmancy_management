@@ -72,6 +72,12 @@ $langData = file_exists($langFile) ? include($langFile) : include('lang_en.php')
             color: #1d4ed8;
             font-weight: 600;
             border-bottom: 2px solid #e2e8f0;
+            padding: 14px 12px;
+        }
+        .table td {
+            color: #111827;
+            padding: 14px 12px;
+            vertical-align: middle;
         }
 
         /* Status colors for Light Mode */
@@ -130,6 +136,30 @@ $langData = file_exists($langFile) ? include($langFile) : include('lang_en.php')
             background: #0e1628;
             border-color: #2b3b5c;
             color: #e5edf7;
+        }
+        :root[data-theme="dark"] .btn-outline-primary {
+            color: #60a5fa;
+            border-color: #2b3b5c;
+        }
+        :root[data-theme="dark"] .btn-outline-primary:hover {
+            background: #1e3a8a;
+            color: #fff;
+        }
+        :root[data-theme="dark"] .btn-outline-danger {
+            color: #f87171;
+            border-color: #2b3b5c;
+        }
+        :root[data-theme="dark"] .btn-outline-danger:hover {
+            background: #dc2626;
+            color: #fff;
+        }
+        :root[data-theme="dark"] .btn-outline-secondary {
+            color: #9ca3af;
+            border-color: #4b5563;
+        }
+        :root[data-theme="dark"] .btn-outline-secondary:hover {
+            background: #374151;
+            color: #fff;
         }
     </style>
 </head>

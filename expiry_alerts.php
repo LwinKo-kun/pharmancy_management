@@ -37,6 +37,56 @@ include 'navbar.php';
 <head>
     <title>Expiry Alerts</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        :root {
+            --trust-blue: #2563eb;
+            --health-green: #12b981;
+            --light-gray: #eef3f8;
+            --dark-charcoal: #111827;
+            --border-gray: #cfd9e4;
+        }
+        :root[data-theme="dark"] {
+            --light-gray: #0b1220;
+            --dark-charcoal: #e5edf7;
+            --border-gray: #26334d;
+        }
+        body {
+            background: var(--light-gray);
+            color: var(--dark-charcoal);
+            padding-left: 270px;
+            padding-top: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px;
+        }
+        @media (max-width: 980px) {
+            body { padding-left: 0; padding-top: 116px; }
+        }
+        .table {
+            background: #fff;
+            border-color: var(--border-gray);
+        }
+        :root[data-theme="dark"] .table {
+            color: #e5edf7;
+            border-color: #2b3b5c;
+        }
+
+        :root[data-theme="dark"] .table > :not(caption) > * > * {
+            background-color: #111a2e !important;
+            color: #e5edf7;
+            border-color: #2b3b5c;
+            box-shadow: inset 0 0 0 9999px transparent;
+        }
+
+        :root[data-theme="dark"] .table thead th {
+            background-color: #1e293b !important;
+            color: #60a5fa !important;
+            border-bottom: 2px solid #334155;
+        }
+
+        :root[data-theme="dark"] .table-hover tbody tr:hover > * {
+            background-color: #1a243a !important;
+        }
+    </style>
 </head>
 <body class="container mt-5">
 <h2>Medicines Expiring in Next <?= htmlspecialchars($days) ?> Days</h2>

@@ -47,14 +47,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Add New Medicine</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-
 <style>
+:root {
+    --trust-blue: #2563eb;
+    --health-green: #12b981;
+    --light-gray: #eef3f8;
+    --dark-charcoal: #111827;
+    --border-gray: #cfd9e4;
+}
+:root[data-theme="dark"] {
+    --light-gray: #0b1220;
+    --dark-charcoal: #e5edf7;
+    --border-gray: #26334d;
+}
 body {
     background: url('images/ph3.jpg') no-repeat center center fixed;
     background-size: cover;
@@ -65,6 +76,8 @@ body {
     padding-top: 20px;
     padding-right: 20px;
     padding-bottom: 20px;
+    background-color: var(--light-gray);
+    color: var(--dark-charcoal);
 }
 @media (max-width: 980px) {
     body { padding-left: 0; padding-top: 116px; }
@@ -94,10 +107,29 @@ body::before {
     box-shadow: 0 12px 35px rgba(0,0,0,0.2);
 }
 
+/* Dark mode frosted card */
+:root[data-theme="dark"] .card-modern {
+    background: rgba(17, 26, 46, 0.75);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+}
+
 /* Form controls */
 .form-control:focus {
     box-shadow: 0 0 0 0.2rem rgba(93, 173, 226,0.25);
     border-color: #5DADE2;
+}
+:root[data-theme="dark"] .form-control {
+    background: #0e1628;
+    border-color: #2b3b5c;
+    color: #e5edf7;
+}
+:root[data-theme="dark"] .form-select {
+    background: #0e1628;
+    border-color: #2b3b5c;
+    color: #e5edf7;
+}
+:root[data-theme="dark"] .form-label {
+    color: #b8d0f2;
 }
 
 .btn-modern {
@@ -113,6 +145,42 @@ body::before {
 .alert-modern {
     border-radius: 0.8rem;
     font-size: 0.95rem;
+}
+:root[data-theme="dark"] .alert-danger {
+    background: #2c1a1a;
+    color: #fca5a5;
+    border-color: #5c2c2c;
+}
+:root[data-theme="dark"] .btn-secondary {
+    background: #3a4a6b;
+    color: #e5edf7;
+    border-color: #2b3b5c;
+}
+:root[data-theme="dark"] .btn-secondary:hover {
+    background: #4b5d7d;
+}
+:root[data-theme="dark"] .btn-success {
+    background: #166534;
+    color: #fff;
+}
+:root[data-theme="dark"] .btn-success:hover {
+    background: #14532d;
+}
+:root[data-theme="dark"] .btn-outline-primary {
+    color: #60a5fa;
+    border-color: #2b3b5c;
+}
+:root[data-theme="dark"] .btn-outline-primary:hover {
+    background: #1e3a8a;
+    color: #fff;
+}
+:root[data-theme="dark"] .btn-outline-secondary {
+    color: #9ca3af;
+    border-color: #4b5563;
+}
+:root[data-theme="dark"] .btn-outline-secondary:hover {
+    background: #374151;
+    color: #fff;
 }
 </style>
 </head>
